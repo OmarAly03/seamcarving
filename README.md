@@ -11,3 +11,7 @@ This project implements seam carving for content-aware image resizing, optimized
    ```bash
    git clone https://github.com/OmarAly03/seamcarving.git
    cd seamcarving
+
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
