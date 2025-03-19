@@ -9,5 +9,5 @@ This project implements seam carving for content-aware image resizing, optimized
 ## Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/your-seam-carving-repo.git
-   cd your-seam-carving-repo
+   git clone https://github.com/OmarAly03/seamcarving.git
+   cd seamcarving
