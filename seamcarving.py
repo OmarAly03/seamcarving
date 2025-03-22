@@ -73,6 +73,7 @@ def seam_carve(image_path, num_seams_vertical=0, num_seams_horizontal=0):
     plt.title('Original Image')
     plt.axis('off')
     
+    # Mark vertical seams
     marked_img = img.copy()
     
     for i in range(num_seams_vertical):
@@ -81,19 +82,36 @@ def seam_carve(image_path, num_seams_vertical=0, num_seams_horizontal=0):
         marked_img = mark_seam(marked_img, backtrack)
         gray = cv2.cvtColor(marked_img, cv2.COLOR_BGR2GRAY)
     
+    # Mark horizontal seams if any
+    if num_seams_horizontal > 0:
+        # Rotate to process horizontal seams
+        marked_img = cv2.rotate(marked_img, cv2.ROTATE_90_CLOCKWISE)
+        gray = cv2.cvtColor(marked_img, cv2.COLOR_BGR2GRAY)
+        
+        for i in range(num_seams_horizontal):
+            energy = compute_energy_manual(gray)
+            backtrack = find_seam(energy)
+            marked_img = mark_seam(marked_img, backtrack)
+            gray = cv2.cvtColor(marked_img, cv2.COLOR_BGR2GRAY)
+        
+        # Rotate back to original orientation
+        marked_img = cv2.rotate(marked_img, cv2.ROTATE_90_COUNTERCLOCKWISE)
+    
     plt.subplot(1, 3, 2)
     plt.imshow(cv2.cvtColor(marked_img, cv2.COLOR_BGR2RGB))
-    plt.title('Vertical Seams Marked')
+    plt.title('Seams Marked (Vertical & Horizontal)')
     plt.axis('off')
     
     img, gray = load_image(image_path)
     
+    # Remove vertical seams
     for i in range(num_seams_vertical):
         energy = compute_energy_manual(gray)
         backtrack = find_seam(energy)
         img = remove_seam(img, backtrack)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     
+    # Remove horizontal seams
     img = cv2.rotate(img, cv2.ROTATE_90_CLOCKWISE)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     
