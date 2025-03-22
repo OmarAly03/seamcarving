@@ -38,11 +38,11 @@ def compute_energy_manual_kernel(gray_padded, height, width):
     return dx, dy
 
 def compute_energy_manual(gray):
-    """Manually computes the energy map using |dI/dx| + |dI/dy| with 3x3 Sobel kernels, no OpenCV"""
+    """Computes the energy map using |dI/dx| + |dI/dy| with 3x3 Sobel kernels"""
     height, width = gray.shape
     gray = gray.astype(np.float64)
     
-    # Manually create padding with BORDER_REFLECT_101
+    # Manually creating padding with BORDER_REFLECT_101
     gray_padded = np.zeros((height + 2, width + 2), dtype=np.float64)
     gray_padded[1:-1, 1:-1] = gray
     gray_padded[0, 1:-1] = gray[1, :]
@@ -54,7 +54,7 @@ def compute_energy_manual(gray):
     gray_padded[-1, 0] = gray[-2, 1]
     gray_padded[-1, -1] = gray[-2, -2]
     
-    # Compute gradients using Numba-optimized kernel
+    # Computing gradients using Numba-optimized kernel
     dx, dy = compute_energy_manual_kernel(gray_padded, height, width)
     
     energy = np.abs(dx) + np.abs(dy)

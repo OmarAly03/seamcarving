@@ -7,5 +7,5 @@ def load_image(image_path):
         print("Error: Image not found or cannot be opened.")
         exit()
     
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # Convert to grayscale using OpenCV
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     return img, gray
